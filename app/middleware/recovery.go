@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"gin-app-start/app/common"
+	"net/http"
 	"runtime/debug"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +16,7 @@ func Recovery() gin.HandlerFunc {
 			if err := recover(); err != nil {
 				logger.Error("recover error:", err)
 				logger.Warn("debug stack warn:", string(debug.Stack()))
-				ctx.Response(500, common.SERVER_ERROR, nil)
+				ctx.Response(http.StatusInternalServerError, common.SERVER_ERROR, nil)
 				return
 			}
 		}()

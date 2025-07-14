@@ -3,6 +3,7 @@ package router
 import (
 	"fmt"
 	"gin-app-start/app/config"
+	"net/http"
 
 	"gin-app-start/app/middleware"
 
@@ -22,7 +23,7 @@ func InitRouter() *gin.Engine {
 		ctx := middleware.Context{Ctx: c}
 		path := c.Request.URL.Path
 		method := c.Request.Method
-		ctx.Response(404, fmt.Sprintf("%s %s not found", method, path), nil)
+		ctx.Response(http.StatusNotFound, fmt.Sprintf("%s %s not found", method, path), nil)
 	})
 
 	// 中间件

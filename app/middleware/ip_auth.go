@@ -3,6 +3,7 @@ package middleware
 import (
 	"fmt"
 	"gin-app-start/app/config"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,7 +21,7 @@ func IPAuth() gin.HandlerFunc {
 			}
 		}
 		if !flag {
-			ctx.Response(401, fmt.Sprintf("%s not in ipList", clientIp), nil)
+			ctx.Response(http.StatusUnauthorized, fmt.Sprintf("%s not in ipList", clientIp), nil)
 			c.Abort()
 			return
 		}

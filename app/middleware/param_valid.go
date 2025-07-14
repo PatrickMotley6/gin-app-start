@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"net/http"
+
 	"gopkg.in/go-playground/validator.v9"
 )
 
@@ -9,14 +11,14 @@ func (c *Context) Validate(p interface{}) error {
 	// 参数绑定
 	if err := c.Ctx.ShouldBind(p); err != nil {
 		logger.Error("param ShouldBind error:", err)
-		c.Response(400, err.Error(), nil)
+		c.Response(http.StatusBadRequest, err.Error(), nil)
 		return err
 	}
 
 	validate := validator.New()
 	if err := validate.Struct(p); err != nil {
 		logger.Error("param validate error:", err)
-		c.Response(400, err.Error(), nil)
+		c.Response(http.StatusBadRequest, err.Error(), nil)
 		return err
 	}
 	return nil
@@ -26,7 +28,7 @@ func (c *Context) Validate(p interface{}) error {
 func (c *Context) ValidateRouter(p interface{}) error {
 	if err := c.Ctx.ShouldBindUri(p); err != nil {
 		logger.Error("param ShouldBindUri err:", err)
-		c.Response(400, err.Error(), nil)
+		c.Response(http.StatusBadRequest, err.Error(), nil)
 		return err
 	}
 	return nil
@@ -36,14 +38,14 @@ func (c *Context) ValidateRouter(p interface{}) error {
 func (c *Context) ValidateQuery(p interface{}) error {
 	if err := c.Ctx.ShouldBindQuery(p); err != nil {
 		logger.Error("param ShouldBindQuery err:", err)
-		c.Response(400, err.Error(), nil)
+		c.Response(http.StatusBadRequest, err.Error(), nil)
 		return err
 	}
 
 	validate := validator.New()
 	if err := validate.Struct(p); err != nil {
 		logger.Error("param validate error:", err)
-		c.Response(400, err.Error(), nil)
+		c.Response(http.StatusBadRequest, err.Error(), nil)
 		return err
 	}
 	return nil
@@ -53,14 +55,14 @@ func (c *Context) ValidateQuery(p interface{}) error {
 func (c *Context) ValidateJSON(p interface{}) error {
 	if err := c.Ctx.ShouldBindJSON(p); err != nil {
 		logger.Error("param ShouldBindJSON err:", err)
-		c.Response(400, err.Error(), nil)
+		c.Response(http.StatusBadRequest, err.Error(), nil)
 		return err
 	}
 
 	validate := validator.New()
 	if err := validate.Struct(p); err != nil {
 		logger.Error("param validate error:", err)
-		c.Response(400, err.Error(), nil)
+		c.Response(http.StatusBadRequest, err.Error(), nil)
 		return err
 	}
 	return nil
