@@ -24,11 +24,12 @@ type Yaml struct {
 }
 
 type Server struct {
-	Port      int    `yaml:"port"`
-	Mode      string `yaml:"mode"`
-	LimitNum  int    `yaml:"limitNum"`
-	UserMongo bool   `yaml:"useMongo"`
-	UserRedis bool   `yaml:"useRedis"`
+	Port        int      `yaml:"port"`
+	Mode        string   `yaml:"mode"`
+	LimitNum    int      `yaml:"limitNum"`
+	UserMongo   bool     `yaml:"useMongo"`
+	UserRedis   bool     `yaml:"useRedis"`
+	IpWhitelist []string `yaml:"ipWhitelist"`
 }
 
 type Redis struct {

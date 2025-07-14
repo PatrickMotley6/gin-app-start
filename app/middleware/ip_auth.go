@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"fmt"
+	"gin-app-start/app/config"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,9 +10,7 @@ import (
 func IPAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := Context{Ctx: c}
-		ipList := []string{
-			"127.0.0.1",
-		}
+		ipList := config.Conf.Server.IpWhitelist
 		flag := false
 		clientIp := c.ClientIP()
 		for _, value := range ipList {
