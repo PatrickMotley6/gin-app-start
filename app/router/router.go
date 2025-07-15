@@ -15,8 +15,8 @@ import (
 )
 
 func InitRouter() *gin.Engine {
-	config := config.Conf
-	gin.SetMode(config.Mode)
+	configuration := config.Conf
+	gin.SetMode(configuration.Mode)
 	router := gin.New()
 	// 404处理
 	router.NoRoute(func(c *gin.Context) {
@@ -34,22 +34,22 @@ func InitRouter() *gin.Engine {
 	)
 
 	var store sessions.Store
-	if config.Server.UserRedis {
-		store, _ = redis.NewStore(config.Session.Size, "tcp", config.Redis.Addr, config.Redis.Password, []byte("secret"))
+	if configuration.Server.UserRedis {
+		store, _ = redis.NewStore(configuration.Session.Size, "tcp", configuration.Redis.Addr, "redis", configuration.Redis.Password, []byte("secret"))
 	} else {
 		store = cookie.NewStore([]byte("secret"))
 	}
 
 	store.Options(sessions.Options{
-		Path:     config.Session.Path,
-		HttpOnly: config.Session.HttpOnly,
-		MaxAge:   config.Session.MaxAge,
+		Path:     configuration.Session.Path,
+		HttpOnly: configuration.Session.HttpOnly,
+		MaxAge:   configuration.Session.MaxAge,
 	})
 
 	router.Use(sessions.Sessions("session_id", store))
 
 	// 路由分组加载
-	group := router.Group(config.Url.Prefix)
+	group := router.Group(configuration.Url.Prefix)
 	InitHealthCheckRouter(group)
 
 	// user
