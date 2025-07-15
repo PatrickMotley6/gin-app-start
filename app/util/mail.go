@@ -18,7 +18,7 @@ func SendMail(to, subject, body string) error {
 	m.SetHeader("From", config.Mail.From)
 
 	// 设置发送给多个用户
-	users := strings.Split(to, "")
+	users := strings.Split(to, ",")
 	m.SetHeader("To", users...)
 
 	// 设置邮件主题
